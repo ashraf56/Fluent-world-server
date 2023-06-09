@@ -1,10 +1,13 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT|| 3000;
+let cors = require('cors')
 const { MongoClient, ServerApiVersion } = require('mongodb');
+require('dotenv').config()
 
 
-
+app.use(cors())
+app.use(express.json())
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.5nj1o0g.mongodb.net/?retryWrites=true&w=majority`; 
 
@@ -20,11 +23,10 @@ async function run() {
   try {
   
     await client.connect();
-    // Send a ping to confirm a successful connection
+
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
-    // Ensures that the client will close when you finish/error
     //await client.close();
   }
 }
