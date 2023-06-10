@@ -3,7 +3,7 @@ const app = express()
 const port = process.env.PORT|| 3000;
 require('dotenv').config()
 let cors = require('cors')
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 let jwt = require('jsonwebtoken');
 
@@ -75,7 +75,31 @@ async function run() {
           res.send(result);
 
         })
-        
+
+// app.get('/alluser/admin/:email', async (req,res)=>{
+// let email=req.params.email;
+// if (req.decoded.email !== email) {
+//   res.send({admin: false})
+// }
+// let query={email: email}
+// let user= await alluserCollection.findOne(query);
+// let result={admin: user?.role === 'admin'}
+// res.send(result)
+// })
+
+app.patch('/alluser/admin/:id',async(req,res)=>{
+  let id= req.params.id;
+  let filter={ 
+    _id: new ObjectId(id)
+  }
+  let updatedata={
+    $set:{
+      role: 'admin'
+    },
+  }
+  let result=await alluserCollection.updateOne(filter,updatedata);
+  res.send(result)
+  })
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
