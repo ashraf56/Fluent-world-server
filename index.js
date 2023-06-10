@@ -4,6 +4,7 @@ const port = process.env.PORT|| 3000;
 let cors = require('cors')
 const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config()
+let jwt = require('jsonwebtoken');
 
 
 app.use(cors())
@@ -24,6 +25,30 @@ async function run() {
   
     await client.connect();
 
+    const alluserCollection = client.db("FluentWorld").collection("alluser");
+
+
+    app.post('/jwt' ,(req,res)=>{
+      let body=req.body;
+      let token= jwt.sign(body, process.env.ACCESS_TOKEN_SEC, { expiresIn: '1h' })
+      
+      res.send({ token })
+      
+      })
+
+      app.post('/alluser',async(req,res)=>{
+        let user=req.body;
+        // let query={email: user.email}
+        // let existcoll= await alluserCollection.findOne(query);
+        // if (existcoll) {
+        //   return res.send({message:'already exist'})
+        // }
+        const result = await alluserCollection.insertOne(user);
+        res.send(result);
+        
+        })
+
+
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
@@ -34,7 +59,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Summer school !')
 })
 
 app.listen(port, () => {
