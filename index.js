@@ -100,6 +100,19 @@ app.patch('/alluser/admin/:id',async(req,res)=>{
   let result=await alluserCollection.updateOne(filter,updatedata);
   res.send(result)
   })
+app.patch('/alluser/instructor/:id',async(req,res)=>{
+  let id= req.params.id;
+  let filter={ 
+    _id: new ObjectId(id)
+  }
+  let updatedata={
+    $set:{
+      role: 'instructor'
+    },
+  }
+  let result=await alluserCollection.updateOne(filter,updatedata);
+  res.send(result)
+  })
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
