@@ -75,17 +75,25 @@ async function run() {
           res.send(result);
 
         })
+        app.get('/alluser/admin/:email',verifyToken, async (req,res)=>{
+          let email=req.params.email;
+          if (req.decoded.email !== email) {
+            res.send({admin: false})
+          }
+          let query={email: email}
+          let user= await alluserCollection.findOne(query);
+          let result={admin: user?.role === 'admin'}
+          res.send(result)
+          })
 
-// app.get('/alluser/admin/:email', async (req,res)=>{
-// let email=req.params.email;
-// if (req.decoded.email !== email) {
-//   res.send({admin: false})
-// }
-// let query={email: email}
-// let user= await alluserCollection.findOne(query);
-// let result={admin: user?.role === 'admin'}
-// res.send(result)
-// })
+
+
+app.get('/alluser/instructor', async (req,res)=>{
+// let id=req.params.id;
+// let query={_id: new ObjectId(id)}
+let result= await alluserCollection.find({role: 'instructor'}).toArray();
+res.send(result)
+})
 
 app.patch('/alluser/admin/:id',async(req,res)=>{
   let id= req.params.id;
