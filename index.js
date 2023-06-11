@@ -49,6 +49,18 @@ async function run() {
     const alluserCollection = client.db("FluentWorld").collection("alluser");
 
 
+    let verifyAdmins= async(req,res,next)=>{
+
+      let  email= req.decoded.email;
+      let query={ email: email}
+      let user = await alluserCollection.findOne(query);
+      if (user?.role !== 'admin') {
+        return res.status(403).send({error: true, message:'Forbiden'})
+      }
+      next();
+    }
+
+
     app.post('/jwt' ,(req,res)=>{
       let body=req.body;
       let token= jwt.sign(body, process.env.ACCESS_TOKEN_SEC, { expiresIn: '1h' })
@@ -75,11 +87,9 @@ async function run() {
           res.send(result);
 
         })
-        app.get('/alluser/admin/:email',verifyToken, async (req,res)=>{
+        app.get('/alluser/admin/:email',verifyToken,verifyAdmins, async (req,res)=>{
           let email=req.params.email;
-          if (req.decoded.email !== email) {
-            res.send({admin: false})
-          }
+          
           let query={email: email}
           let user= await alluserCollection.findOne(query);
           let result={admin: user?.role === 'admin'}
