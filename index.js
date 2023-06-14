@@ -48,6 +48,7 @@ async function run() {
 
     const alluserCollection = client.db("FluentWorld").collection("alluser");
     const allClassCollection = client.db("FluentWorld").collection("allclass");
+    const cartClasses = client.db("FluentWorld").collection("cartclasses");
 
 
     let verifyAdmins= async(req,res,next)=>{
@@ -79,6 +80,38 @@ async function run() {
       res.send({ token })
       
       })
+
+app.post('/cartClass' ,async(req,res)=>{
+let carts= req.body;
+let query={cname: carts.cname}
+let Existcart= await cartClasses.findOne(query);
+
+if (Existcart) {
+  return res.send({message:'already exist'})
+}
+let result= await cartClasses.insertOne(carts)
+res.send(result)
+
+
+})
+app.get('/cartClass' ,async(req,res)=>{
+
+let result= await cartClasses.find().toArray()
+res.send(result)
+
+
+})
+app.delete('/cartClass/:id' ,async(req,res)=>{
+
+  let id=req.params.id;
+let query={ _id:new ObjectId(id) }
+const result = await cartClasses.deleteOne(query);
+res.send(result);
+
+
+})
+
+
 
       app.post('/alluser',async(req,res)=>{
         let user=req.body;
