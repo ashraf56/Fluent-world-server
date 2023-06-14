@@ -83,7 +83,8 @@ async function run() {
 
 app.post('/cartClass' ,async(req,res)=>{
 let carts= req.body;
-let query={cname: carts.cname}
+
+let query={ class_id: carts.class_id}
 let Existcart= await cartClasses.findOne(query);
 
 if (Existcart) {
