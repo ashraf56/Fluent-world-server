@@ -50,7 +50,7 @@ async function run() {
     const allClassCollection = client.db("FluentWorld").collection("allclass");
     const cartClasses = client.db("FluentWorld").collection("cartclasses");
 
-
+//not used 
     let verifyAdmins= async(req,res,next)=>{
 
       let  email= req.decoded.email;
