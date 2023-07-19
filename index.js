@@ -84,7 +84,7 @@ async function run() {
 app.post('/cartClass' ,async(req,res)=>{
 let carts= req.body;
 
-let query={ class_id: carts.class_id}
+let query={ email: carts.email}
 let Existcart= await cartClasses.findOne(query);
 
 if (Existcart) {
@@ -95,9 +95,22 @@ res.send(result)
 
 
 })
-app.get('/cartClass' ,async(req,res)=>{
 
-let result= await cartClasses.find().toArray()
+app.get('/cartClass' , async(req,res)=>{
+let email= req.query.email
+
+
+
+let result= await cartClasses.find({email:email}).toArray()
+res.send(result)
+
+
+})
+
+app.get('/cartClass/:email' , async(req,res)=>{
+  let email=req.params.email;
+
+let result= await cartClasses.find({email: email}).toArray()
 res.send(result)
 
 
