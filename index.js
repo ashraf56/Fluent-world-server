@@ -87,9 +87,14 @@ let carts= req.body;
 // let query={ email: carts.email}
 // let Existcart= await cartClasses.findOne(query);
 
-// if (Existcart) {
-//   return res.send({message:'already exist'})
-// }
+const existingCart = await cartClasses.findOne({
+  class_id: carts.class_id,
+  user_id: carts.user_id,
+});
+
+if (existingCart) {
+  return res.send({message:'already exist'})
+}
 let result= await cartClasses.insertOne(carts)
 res.send(result)
 
