@@ -84,12 +84,12 @@ async function run() {
 app.post('/cartClass' ,async(req,res)=>{
 let carts= req.body;
 
-let query={ email: carts.email}
-let Existcart= await cartClasses.findOne(query);
+// let query={ email: carts.email}
+// let Existcart= await cartClasses.findOne(query);
 
-if (Existcart) {
-  return res.send({message:'already exist'})
-}
+// if (Existcart) {
+//   return res.send({message:'already exist'})
+// }
 let result= await cartClasses.insertOne(carts)
 res.send(result)
 
@@ -107,14 +107,14 @@ res.send(result)
 
 })
 
-app.get('/cartClass/:email' , async(req,res)=>{
-  let email=req.params.email;
+// app.get('/cartClass/:email' , async(req,res)=>{
+//   let email=req.params.email;
 
-let result= await cartClasses.find({email: email}).toArray()
-res.send(result)
+// let result= await cartClasses.find({email: email}).toArray()
+// res.send(result)
 
 
-})
+// })
 app.delete('/cartClass/:id' ,async(req,res)=>{
 
   let id=req.params.id;
