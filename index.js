@@ -220,7 +220,7 @@ app.get('/classes', async(req,res)=>{
   let result =await allClassCollection.find().toArray();
   res.send(result)
 })
-app.get('/classes/:email', async(req,res)=>{
+app.get('/classes/:email', async(req,res)=>{ 
 let email=req.params.email
   let result =await allClassCollection.find({email:email}).toArray();
   res.send(result)
