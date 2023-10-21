@@ -154,7 +154,15 @@ res.send(result);
 
      
 
+        app.delete('/alluser/:id' ,async(req,res)=>{
+
+          let id=req.params.id;
+        let query={ _id:new ObjectId(id) }
+        const result = await alluserCollection.deleteOne(query);
+        res.send(result);
         
+        
+        })     
 
 app.get('/alluser/instructor', async (req,res)=>{
 let result= await alluserCollection.find({role: 'instructor'}).toArray();
