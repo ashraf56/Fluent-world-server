@@ -150,6 +150,13 @@ res.send(result);
           res.send(result);
 
         })
+        app.get('/alluser/:email', async(req,res)=>{
+          let email=req.params.email;
+          let query={email: email}
+          const result = await alluserCollection.find(query).toArray();
+          res.send(result);
+
+        })
 
 
      
