@@ -171,7 +171,7 @@ res.send(result);
         
         })     
 
-app.get('/alluser/instructor', async (req,res)=>{
+app.get('/user/instructor', async (req,res)=>{
 let result= await alluserCollection.find({role: 'instructor'}).toArray();
 res.send(result)
 })
