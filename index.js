@@ -102,9 +102,6 @@ async function run() {
 
     app.get('/cartClass', async (req, res) => {
       let email = req.query.email
-
-
-
       let result = await cartClasses.find({ email: email }).toArray()
       res.send(result)
 
@@ -128,6 +125,7 @@ async function run() {
 
 
     })
+
 
 
 
@@ -275,6 +273,16 @@ async function run() {
       }
       let result = await allClassCollection.updateOne(filter, updatedata);
       res.send(result)
+    })
+
+    app.delete('/classes/:id', async (req, res) => {
+
+      let id = req.params.id;
+      let query = { _id: new ObjectId(id) }
+      const result = await allClassCollection.deleteOne(query);
+      res.send(result);
+
+
     })
 
     app.get('/approve', async (req, res) => {
